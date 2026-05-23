@@ -1,7 +1,5 @@
 # 🎯 GH-600: Developing in Agentic AI Systems — Complete Study Plan
 
-> 📖 **[Read the full study guide as a website →](https://vicentegnz.github.io/GH-600-Developing-in-Agentic-AI-Systems/)**
-
 ## Certification Overview
 
 | Field | Details |

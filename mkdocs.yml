@@ -1,0 +1,64 @@
+site_name: GH-600 Study Plan
+site_description: Study guide for GH-600 - Developing in Agentic AI Systems
+site_url: https://vicentegnz.github.io/GH-600-Developing-in-Agentic-AI-Systems/
+repo_url: https://github.com/vicentegnz/GH-600-Developing-in-Agentic-AI-Systems
+repo_name: vicentegnz/GH-600-Study-Plan
+
+docs_dir: docs
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Study Notes:
+      - "1. Agent Architecture & SDLC": 01-agent-architecture-sdlc.md
+      - "2. Tool Use & Environment": 02-tool-use-environment.md
+      - "3. Memory, State & Execution": 03-memory-state-execution.md
+      - "4. Evaluation, Error Analysis & Tuning": 04-evaluation-error-tuning.md
+      - "5. Multi-Agent Coordination": 05-multi-agent-coordination.md
+      - "6. Guardrails & Accountability": 06-guardrails-accountability.md
+  - Exercises:
+      - "1. Architecture Exercises": exercises/01-exercises-architecture.md
+      - "2. Tools & MCP Exercises": exercises/02-exercises-tools-mcp.md
+      - "3. Memory & State Exercises": exercises/03-exercises-memory-state.md
+      - "4. Evaluation Exercises": exercises/04-exercises-evaluation.md
+      - "5. Multi-Agent Exercises": exercises/05-exercises-multi-agent.md
+      - "6. Guardrails Exercises": exercises/06-exercises-guardrails.md
+  - Practice Exam: practice-exam/practice-questions.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
