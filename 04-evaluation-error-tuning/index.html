@@ -1,0 +1,1898 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Study guide for GH-600 - Developing in Agentic AI Systems">
+      
+      
+      
+        <link rel="canonical" href="https://vicentegnz.github.io/GH-600-Developing-in-Agentic-AI-Systems/04-evaluation-error-tuning/">
+      
+      
+        <link rel="prev" href="../03-memory-state-execution/">
+      
+      
+        <link rel="next" href="../05-multi-agent-coordination/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>4. Evaluation, Error Analysis & Tuning - GH-600 Study Plan</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#domain-4-perform-evaluation-error-analysis-and-tuning-1520" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="GH-600 Study Plan" class="md-header__button md-logo" aria-label="GH-600 Study Plan" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GH-600 Study Plan
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4. Evaluation, Error Analysis & Tuning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/vicentegnz/GH-600-Developing-in-Agentic-AI-Systems" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    vicentegnz/GH-600-Study-Plan
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01-agent-architecture-sdlc/" class="md-tabs__link">
+          
+  
+  
+  Study Notes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../exercises/01-exercises-architecture/" class="md-tabs__link">
+          
+  
+  
+  Exercises
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../practice-exam/practice-questions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Practice Exam
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="GH-600 Study Plan" class="md-nav__button md-logo" aria-label="GH-600 Study Plan" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    GH-600 Study Plan
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/vicentegnz/GH-600-Developing-in-Agentic-AI-Systems" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    vicentegnz/GH-600-Study-Plan
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Notes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Study Notes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-agent-architecture-sdlc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Agent Architecture & SDLC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-tool-use-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Tool Use & Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-memory-state-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Memory, State & Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Evaluation, Error Analysis & Tuning
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Evaluation, Error Analysis & Tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 References &amp; Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-1-define-success-criteria-and-evaluation-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section 1: Define Success Criteria and Evaluation Signals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section 1: Define Success Criteria and Evaluation Signals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-specify-expected-outcomes-and-operational-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Specify Expected Outcomes and Operational Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-identify-qualitative-and-quantitative-evaluation-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Identify Qualitative and Quantitative Evaluation Signals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-align-evaluation-criteria-with-development-intent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Align Evaluation Criteria with Development Intent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-generate-evaluation-signals-using-automated-scanning-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Generate Evaluation Signals Using Automated Scanning Tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-2-analyze-agent-failures-and-identify-root-causes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section 2: Analyze Agent Failures and Identify Root Causes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section 2: Analyze Agent Failures and Identify Root Causes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-identify-failures-using-logs-plans-traces-and-artifacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Identify Failures Using Logs, Plans, Traces, and Artifacts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-classify-root-causes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Classify Root Causes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-3-tune-agent-behavior-based-on-evaluation-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section 3: Tune Agent Behavior Based on Evaluation Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section 3: Tune Agent Behavior Based on Evaluation Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-revise-instructions-workflows-or-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Revise Instructions, Workflows, or Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-refine-memory-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Refine Memory Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-refine-tool-usage-and-tool-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Refine Tool Usage and Tool Access
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-memorization-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 Key Memorization Points
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-assessment-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Self-Assessment Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-multi-agent-coordination/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Multi-Agent Coordination
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-guardrails-accountability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Guardrails & Accountability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Exercises
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exercises/01-exercises-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Architecture Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exercises/02-exercises-tools-mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Tools & MCP Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exercises/03-exercises-memory-state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Memory & State Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exercises/04-exercises-evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Evaluation Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exercises/05-exercises-multi-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Multi-Agent Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exercises/06-exercises-guardrails/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Guardrails Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practice-exam/practice-questions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Practice Exam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 References &amp; Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-1-define-success-criteria-and-evaluation-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section 1: Define Success Criteria and Evaluation Signals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section 1: Define Success Criteria and Evaluation Signals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-specify-expected-outcomes-and-operational-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Specify Expected Outcomes and Operational Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-identify-qualitative-and-quantitative-evaluation-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Identify Qualitative and Quantitative Evaluation Signals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-align-evaluation-criteria-with-development-intent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Align Evaluation Criteria with Development Intent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-generate-evaluation-signals-using-automated-scanning-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Generate Evaluation Signals Using Automated Scanning Tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-2-analyze-agent-failures-and-identify-root-causes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section 2: Analyze Agent Failures and Identify Root Causes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section 2: Analyze Agent Failures and Identify Root Causes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-identify-failures-using-logs-plans-traces-and-artifacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Identify Failures Using Logs, Plans, Traces, and Artifacts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-classify-root-causes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Classify Root Causes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-3-tune-agent-behavior-based-on-evaluation-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section 3: Tune Agent Behavior Based on Evaluation Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section 3: Tune Agent Behavior Based on Evaluation Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-revise-instructions-workflows-or-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Revise Instructions, Workflows, or Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-refine-memory-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Refine Memory Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-refine-tool-usage-and-tool-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Refine Tool Usage and Tool Access
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-memorization-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 Key Memorization Points
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-assessment-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Self-Assessment Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="domain-4-perform-evaluation-error-analysis-and-tuning-1520">Domain 4: Perform Evaluation, Error Analysis, and Tuning (15–20%)</h1>
+<h2 id="references-documentation">📚 References &amp; Documentation</h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub Docs</td>
+<td><a href="https://docs.github.com/en/copilot/tutorials/customization-library/custom-agents/implementation-planner">Implementation Planner</a></td>
+</tr>
+<tr>
+<td>GitHub Docs</td>
+<td><a href="https://docs.github.com/en/copilot/using-github-copilot/code-review/using-copilot-code-review">Copilot Code Review</a></td>
+</tr>
+<tr>
+<td>GitHub Docs</td>
+<td><a href="https://docs.github.com/en/code-security/code-scanning">Code Scanning</a></td>
+</tr>
+<tr>
+<td>GitHub Docs</td>
+<td><a href="https://docs.github.com/en/code-security/dependabot">Dependabot</a></td>
+</tr>
+<tr>
+<td>GitHub Docs</td>
+<td><a href="https://docs.github.com/en/code-security/secret-scanning">Secret Scanning</a></td>
+</tr>
+<tr>
+<td>MS Learn</td>
+<td><a href="https://learn.microsoft.com/en-us/training/modules/foundations-agentic-ai/">Foundations of Agentic AI</a></td>
+</tr>
+<tr>
+<td>MS Learn</td>
+<td><a href="https://learn.microsoft.com/en-us/training/modules/design-agent-architecture-integration/">Designing Agent Architecture</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="section-1-define-success-criteria-and-evaluation-signals">Section 1: Define Success Criteria and Evaluation Signals</h2>
+<h3 id="11-specify-expected-outcomes-and-operational-constraints">1.1 Specify Expected Outcomes and Operational Constraints</h3>
+<p><strong>Well-defined success criteria template:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">evaluation</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Generate</span><span class="nv"> </span><span class="s">API</span><span class="nv"> </span><span class="s">endpoint</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">user</span><span class="nv"> </span><span class="s">registration&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">expected_outcomes</span><span class="p">:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">functional</span><span class="p">:</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Endpoint</span><span class="nv"> </span><span class="s">accepts</span><span class="nv"> </span><span class="s">POST</span><span class="nv"> </span><span class="s">/api/users</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">email</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">password&quot;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Returns</span><span class="nv"> </span><span class="s">201</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">user</span><span class="nv"> </span><span class="s">ID</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">success&quot;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Returns</span><span class="nv"> </span><span class="s">400</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">validation</span><span class="nv"> </span><span class="s">errors</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">bad</span><span class="nv"> </span><span class="s">input&quot;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Returns</span><span class="nv"> </span><span class="s">409</span><span class="nv"> </span><span class="s">if</span><span class="nv"> </span><span class="s">email</span><span class="nv"> </span><span class="s">already</span><span class="nv"> </span><span class="s">exists&quot;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nt">quality</span><span class="p">:</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Code</span><span class="nv"> </span><span class="s">follows</span><span class="nv"> </span><span class="s">repository</span><span class="nv"> </span><span class="s">conventions&quot;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;No</span><span class="nv"> </span><span class="s">new</span><span class="nv"> </span><span class="s">lint</span><span class="nv"> </span><span class="s">errors</span><span class="nv"> </span><span class="s">introduced&quot;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Test</span><span class="nv"> </span><span class="s">coverage</span><span class="nv"> </span><span class="s">≥</span><span class="nv"> </span><span class="s">80%</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">new</span><span class="nv"> </span><span class="s">code&quot;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">security</span><span class="p">:</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Password</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">hashed</span><span class="nv"> </span><span class="s">before</span><span class="nv"> </span><span class="s">storage&quot;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Input</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">validated</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">sanitized&quot;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;No</span><span class="nv"> </span><span class="s">secrets</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">code</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">logs&quot;</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">  </span><span class="nt">operational_constraints</span><span class="p">:</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">max_execution_time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5</span><span class="nv"> </span><span class="s">minutes&quot;</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">max_files_modified</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">no_changes_to</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;src/core/&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;migrations/&quot;</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">required_artifacts</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tests&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;documentation&quot;</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+<h3 id="12-identify-qualitative-and-quantitative-evaluation-signals">1.2 Identify Qualitative and Quantitative Evaluation Signals</h3>
+<p><strong>Quantitative Signals (Measurable):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Metric</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Test pass rate</td>
+<td>% of tests passing</td>
+<td><code>npm test</code>, <code>pytest</code></td>
+</tr>
+<tr>
+<td>Code coverage</td>
+<td>% lines/branches covered</td>
+<td>Istanbul, Coverage.py</td>
+</tr>
+<tr>
+<td>Lint score</td>
+<td># of lint errors/warnings</td>
+<td>ESLint, Pylint</td>
+</tr>
+<tr>
+<td>Security findings</td>
+<td># of vulnerabilities</td>
+<td>CodeQL, Dependabot</td>
+</tr>
+<tr>
+<td>Build success</td>
+<td>Pass/Fail</td>
+<td>GitHub Actions</td>
+</tr>
+<tr>
+<td>Execution time</td>
+<td>Seconds/minutes</td>
+<td>Workflow timing</td>
+</tr>
+<tr>
+<td>Token usage</td>
+<td># tokens consumed</td>
+<td>SDK metrics</td>
+</tr>
+<tr>
+<td>Diff size</td>
+<td>Lines added/removed</td>
+<td><code>git diff --stat</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Qualitative Signals (Judgment-based):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Evaluation Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code readability</td>
+<td>Human review, style guide compliance</td>
+</tr>
+<tr>
+<td>Architectural fit</td>
+<td>Pattern matching against conventions</td>
+</tr>
+<tr>
+<td>Naming quality</td>
+<td>Consistency with existing codebase</td>
+</tr>
+<tr>
+<td>Documentation clarity</td>
+<td>Human assessment</td>
+</tr>
+<tr>
+<td>Solution elegance</td>
+<td>Simplicity vs. complexity ratio</td>
+</tr>
+<tr>
+<td>Intent alignment</td>
+<td>Does output match what was requested?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-align-evaluation-criteria-with-development-intent">1.3 Align Evaluation Criteria with Development Intent</h3>
+<p><strong>The Intent-Output Gap:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│ Developer    │     │ Agent        │     │ Actual       │
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│ Intent       │────▶│ Interpretation│────▶│ Output       │
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│ (What they   │     │ (What agent  │     │ (What was    │
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│  wanted)     │     │  understood) │     │  produced)   │
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>└──────────────┘     └──────────────┘     └──────────────┘
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        │                                        │
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        └────────── ALIGNMENT GAP ───────────────┘
+</code></pre></div></p>
+<p><strong>Reducing the gap:</strong>
+- Clear, specific prompts with examples
+- Success criteria defined BEFORE execution
+- Incremental validation (check at each step)
+- Feedback loops that refine agent behavior</p>
+<h3 id="14-generate-evaluation-signals-using-automated-scanning-tools">1.4 Generate Evaluation Signals Using Automated Scanning Tools</h3>
+<p><strong>GitHub-native scanning tools:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it scans</th>
+<th>Evaluation signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CodeQL</strong></td>
+<td>Source code for vulnerabilities</td>
+<td>Security quality</td>
+</tr>
+<tr>
+<td><strong>Dependabot</strong></td>
+<td>Dependencies for known CVEs</td>
+<td>Supply chain security</td>
+</tr>
+<tr>
+<td><strong>Secret Scanning</strong></td>
+<td>Code for exposed secrets</td>
+<td>Credential safety</td>
+</tr>
+<tr>
+<td><strong>Copilot Code Review</strong></td>
+<td>PRs for bugs, style, security</td>
+<td>Code quality</td>
+</tr>
+<tr>
+<td><strong>GitHub Actions</strong></td>
+<td>CI/CD pipeline results</td>
+<td>Build/test health</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Integrating scanners into agent evaluation:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># .github/workflows/evaluate-agent-output.yml</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Evaluate Agent Output</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pull_request</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nt">jobs</span><span class="p">:</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">evaluate</span><span class="p">:</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run tests</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">npm test -- --coverage</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run linter</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">npm run lint</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Security scan</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github/codeql-action/analyze@v3</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check coverage threshold</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">          </span><span class="no">COVERAGE=$(cat coverage/coverage-summary.json | jq &#39;.total.lines.pct&#39;)</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">          </span><span class="no">if (( $(echo &quot;$COVERAGE &lt; 80&quot; | bc -l) )); then</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">            </span><span class="no">echo &quot;::error::Coverage $COVERAGE% below 80% threshold&quot;</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">            </span><span class="no">exit 1</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">          </span><span class="no">fi</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Evaluate diff size</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">          </span><span class="no">LINES=$(git diff --stat origin/main | tail -1 | grep -oP &#39;\d+(?= insertion)&#39;)</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">          </span><span class="no">if [ &quot;$LINES&quot; -gt 500 ]; then</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">            </span><span class="no">echo &quot;::warning::Large diff ($LINES lines) - may need manual review&quot;</span>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">          </span><span class="no">fi</span>
+</code></pre></div></p>
+<hr />
+<h2 id="section-2-analyze-agent-failures-and-identify-root-causes">Section 2: Analyze Agent Failures and Identify Root Causes</h2>
+<h3 id="21-identify-failures-using-logs-plans-traces-and-artifacts">2.1 Identify Failures Using Logs, Plans, Traces, and Artifacts</h3>
+<p><strong>Failure identification sources:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What to look for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Agent logs</strong></td>
+<td>Error messages, unexpected tool calls, timeout events</td>
+</tr>
+<tr>
+<td><strong>Execution plan</strong></td>
+<td>Steps that diverge from original plan</td>
+</tr>
+<tr>
+<td><strong>Tool traces</strong></td>
+<td>Failed tool invocations, wrong parameters</td>
+</tr>
+<tr>
+<td><strong>Git history</strong></td>
+<td>Unexpected or partial commits</td>
+</tr>
+<tr>
+<td><strong>Workflow artifacts</strong></td>
+<td>Missing expected outputs</td>
+</tr>
+<tr>
+<td><strong>PR description</strong></td>
+<td>Incomplete or incoherent summaries</td>
+</tr>
+<tr>
+<td><strong>Test results</strong></td>
+<td>Failed tests that should pass</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example trace analysis:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;trace&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;step&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;tool&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grep&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.3s&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;step&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;tool&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;view&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.1s&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;step&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;tool&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;failure&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;old_str not found&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;step&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;tool&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;failure&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;old_str not found&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;step&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;tool&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;failure&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;old_str not found&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">&quot;diagnosis&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Agent is trying to edit content that doesn&#39;t match the actual file. Likely stale context or wrong file version.&quot;</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+</code></pre></div></p>
+<h3 id="22-classify-root-causes">2.2 Classify Root Causes</h3>
+<p><strong>Root Cause Taxonomy:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Description</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Reasoning errors</strong></td>
+<td>Agent's logic is flawed</td>
+<td>Wrong algorithm choice, incorrect assumptions, misunderstood requirements</td>
+</tr>
+<tr>
+<td><strong>Tool misuse</strong></td>
+<td>Agent uses tools incorrectly</td>
+<td>Wrong parameters, calling tools in wrong order, using write tool for read</td>
+</tr>
+<tr>
+<td><strong>Context issues</strong></td>
+<td>Agent has wrong/incomplete information</td>
+<td>Stale files, missing dependencies, incomplete project understanding</td>
+</tr>
+<tr>
+<td><strong>Environment issues</strong></td>
+<td>External factors cause failure</td>
+<td>Network timeouts, permission errors, resource limits</td>
+</tr>
+<tr>
+<td><strong>Instruction issues</strong></td>
+<td>Prompts/instructions are ambiguous</td>
+<td>Vague requirements, contradictory instructions, missing constraints</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Root Cause Analysis Framework:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>1. WHAT failed? → Identify the specific failure point
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>2. WHEN did it fail? → Determine the step/timing
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>3. WHY did it fail? → Classify into root cause category
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>4. HOW to fix? → Define corrective action
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>5. HOW to prevent? → Define preventive measure
+</code></pre></div></p>
+<p><strong>Common patterns by root cause:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Reasoning Error Indicators:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  - Agent produces logically inconsistent output
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  - Agent contradicts its own plan
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  - Agent makes decisions that don&#39;t follow from the evidence
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>Tool Misuse Indicators:
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  - Repeated failed tool calls with same parameters
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  - Using edit tool on files that don&#39;t exist
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  - Calling tools in wrong sequence
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>Context Issue Indicators:
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>  - Agent references files/functions that don&#39;t exist
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>  - Agent assumes outdated API signatures
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>  - Agent doesn&#39;t account for recent changes
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>Environment Issue Indicators:
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>  - Timeout errors
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>  - Permission denied errors
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>  - Network connectivity failures
+</code></pre></div>
+<hr />
+<h2 id="section-3-tune-agent-behavior-based-on-evaluation-results">Section 3: Tune Agent Behavior Based on Evaluation Results</h2>
+<h3 id="31-revise-instructions-workflows-or-constraints">3.1 Revise Instructions, Workflows, or Constraints</h3>
+<p><strong>Instruction Tuning Strategies:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Problem Observed</th>
+<th>Tuning Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent modifies wrong files</td>
+<td>Add explicit path constraints</td>
+</tr>
+<tr>
+<td>Agent produces verbose code</td>
+<td>Add "prefer concise solutions" instruction</td>
+</tr>
+<tr>
+<td>Agent ignores conventions</td>
+<td>Add specific examples in custom instructions</td>
+</tr>
+<tr>
+<td>Agent over-engineers solutions</td>
+<td>Add "minimal viable change" constraint</td>
+</tr>
+<tr>
+<td>Agent misunderstands domain terms</td>
+<td>Add glossary/definitions section</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Before tuning:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gh"># Custom Instructions</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Write good code that follows best practices.
+</code></pre></div></p>
+<p><strong>After tuning (specific, actionable):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gh"># Custom Instructions</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="gu">## Code Style</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">-</span><span class="w"> </span>Maximum function length: 20 lines
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">-</span><span class="w"> </span>Use early returns over nested conditionals
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">-</span><span class="w"> </span>All public methods must have JSDoc comments
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="gu">## Architecture Rules</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="k">-</span><span class="w"> </span>API handlers must not contain business logic
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="k">-</span><span class="w"> </span>Use dependency injection, never import singletons directly
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="k">-</span><span class="w"> </span>All database calls go through repository interfaces
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="gu">## Testing Requirements</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="k">-</span><span class="w"> </span>Every new function needs at least one test
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="k">-</span><span class="w"> </span>Use test names: &quot;should [expected behavior] when [condition]&quot;
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="k">-</span><span class="w"> </span>Mock external services, never call real APIs in tests
+</code></pre></div></p>
+<h3 id="32-refine-memory-usage">3.2 Refine Memory Usage</h3>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Memory Tuning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent forgets project conventions</td>
+<td>Add to Copilot Memory or custom instructions</td>
+</tr>
+<tr>
+<td>Agent context window overflows</td>
+<td>Reduce loaded files, summarize large contexts</td>
+</tr>
+<tr>
+<td>Agent uses outdated information</td>
+<td>Set memory expiration, implement freshness checks</td>
+</tr>
+<tr>
+<td>Agent applies wrong conventions</td>
+<td>Scope memory to specific directories/file types</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-refine-tool-usage-and-tool-access">3.3 Refine Tool Usage and Tool Access</h3>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Tool Tuning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent uses bash for simple edits</td>
+<td>Restrict to <code>edit</code> tool, remove <code>bash</code></td>
+</tr>
+<tr>
+<td>Agent creates files instead of editing</td>
+<td>Remove <code>create</code> tool, keep <code>edit</code></td>
+</tr>
+<tr>
+<td>Agent makes network calls unnecessarily</td>
+<td>Restrict network tools via firewall</td>
+</tr>
+<tr>
+<td>Agent doesn't use available tools</td>
+<td>Improve tool descriptions for better matching</td>
+</tr>
+<tr>
+<td>Agent uses tools too broadly</td>
+<td>Add per-agent tool restrictions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Iterative tuning cycle:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>1. Run agent on task
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>2. Evaluate output against success criteria
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>3. Identify gaps/failures
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>4. Classify root cause
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>5. Apply targeted fix (instruction/memory/tool adjustment)
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>6. Re-run and compare
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>7. Repeat until success criteria are met
+</code></pre></div></p>
+<hr />
+<h2 id="key-memorization-points">🧠 Key Memorization Points</h2>
+<ol>
+<li><strong>Success criteria</strong> = Expected outcomes (functional + quality + security) + Operational constraints</li>
+<li><strong>Quantitative signals</strong>: Test pass rate, coverage, lint score, security findings, diff size</li>
+<li><strong>Qualitative signals</strong>: Readability, architectural fit, naming quality, intent alignment</li>
+<li><strong>Root cause categories</strong>: Reasoning errors, tool misuse, context issues, environment issues, instruction issues</li>
+<li><strong>Evaluation tools</strong>: CodeQL, Dependabot, Secret Scanning, Copilot Code Review, CI/CD</li>
+<li><strong>Intent-Output Gap</strong>: The difference between what developer wanted and what agent produced</li>
+<li><strong>Tuning hierarchy</strong>: Instructions → Memory → Tools → Workflow constraints</li>
+<li><strong>Iterative tuning</strong>: Run → Evaluate → Identify gaps → Fix → Re-run → Compare</li>
+<li><strong>Trace analysis</strong>: Step-by-step review of tool calls to identify failure point</li>
+<li><strong>Automated scanning</strong> integrates into PR checks for continuous evaluation</li>
+</ol>
+<hr />
+<h2 id="self-assessment-questions">📝 Self-Assessment Questions</h2>
+<ol>
+<li>What's the difference between quantitative and qualitative evaluation signals?</li>
+<li>How do you integrate CodeQL into agent evaluation workflows?</li>
+<li>Name the five root cause categories for agent failures.</li>
+<li>What indicators suggest a "reasoning error" vs. "tool misuse"?</li>
+<li>Describe the iterative tuning cycle for agent behavior.</li>
+<li>How do you align evaluation criteria with development intent?</li>
+<li>What artifacts help you identify where an agent failed?</li>
+<li>Give three examples of instruction tuning to fix specific agent problems.</li>
+<li>When should you refine tool access vs. refine instructions?</li>
+<li>How do you generate evaluation signals using automated scanning tools?</li>
+</ol>
+<p>➡️ <strong>Practice these concepts with exercises</strong>: <a href="../exercises/04-exercises-evaluation/">04-exercises-evaluation.md</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
