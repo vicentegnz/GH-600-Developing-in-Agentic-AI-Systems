@@ -19,12 +19,12 @@
 
 | # | Domain | Weight | Study File |
 |---|--------|--------|------------|
-| 1 | Prepare Agent Architecture and SDLC Processes | 15–20% | [01-agent-architecture-sdlc.md](./01-agent-architecture-sdlc.md) |
-| 2 | Implement Tool Use and Environment Interaction | 20–25% | [02-tool-use-environment.md](./02-tool-use-environment.md) |
-| 3 | Manage Memory, State, and Execution | 10–15% | [03-memory-state-execution.md](./03-memory-state-execution.md) |
-| 4 | Perform Evaluation, Error Analysis, and Tuning | 15–20% | [04-evaluation-error-tuning.md](./04-evaluation-error-tuning.md) |
-| 5 | Orchestrate Multi-Agent Coordination | 15–20% | [05-multi-agent-coordination.md](./05-multi-agent-coordination.md) |
-| 6 | Implement Guardrails and Accountability | 10–15% | [06-guardrails-accountability.md](./06-guardrails-accountability.md) |
+| 1 | Prepare Agent Architecture and SDLC Processes | 15–20% | [01-agent-architecture-sdlc.md](docs/01-agent-architecture-sdlc.md) |
+| 2 | Implement Tool Use and Environment Interaction | 20–25% | [02-tool-use-environment.md](docs/02-tool-use-environment.md) |
+| 3 | Manage Memory, State, and Execution | 10–15% | [03-memory-state-execution.md](docs/03-memory-state-execution.md) |
+| 4 | Perform Evaluation, Error Analysis, and Tuning | 15–20% | [04-evaluation-error-tuning.md](docs/04-evaluation-error-tuning.md) |
+| 5 | Orchestrate Multi-Agent Coordination | 15–20% | [05-multi-agent-coordination.md](docs/05-multi-agent-coordination.md) |
+| 6 | Implement Guardrails and Accountability | 10–15% | [06-guardrails-accountability.md](docs/06-guardrails-accountability.md) |
 
 ---
 
@@ -58,51 +58,68 @@
 
 ---
 
-## 🗓️ Recommended 4-Week Study Schedule
+## � Study Plan (~35–40 h total)
 
-### Week 1: Foundations & Architecture (Domains 1 + 6)
-| Day | Focus | Activity |
-|-----|-------|----------|
-| Mon | Agentic AI Foundations | Complete MS Learn "Foundations of Agentic AI" module |
-| Tue | Agent vs Assistant distinctions | Study [01-agent-architecture-sdlc.md](./01-agent-architecture-sdlc.md) Sections 1-2 |
-| Wed | SDLC Integration & Planning | Study Section 3 + complete exercises |
-| Thu | Observability & Control | Study Section 4 + complete exercises |
-| Fri | Guardrails & Accountability | Study [06-guardrails-accountability.md](./06-guardrails-accountability.md) |
-| Sat | Exercises & Review | Complete all Week 1 exercises |
-| Sun | Rest / Light review | Review flashcards, re-read key concepts |
+> Complete activities at your own pace. Each item shows an estimated time investment.
 
-### Week 2: Tools, MCP & Environments (Domain 2)
-| Day | Focus | Activity |
-|-----|-------|----------|
-| Mon | Tool Selection & Config | Complete MS Learn "Tooling, MCP" module |
-| Tue | MCP Servers | Study [02-tool-use-environment.md](./02-tool-use-environment.md) Sections 1-2 |
-| Wed | Agent Execution Environments | Study Sections 3-4 |
-| Thu | Error Handling & Safe Execution | Study Section 4 + exercises |
-| Fri | Hands-on Lab | Build a custom MCP server configuration |
-| Sat | Exercises & Review | Complete all Week 2 exercises |
-| Sun | Rest / Light review | Review configurations and patterns |
+### Phase 1: Foundations & Architecture (Domains 1 + 6) — ~8 h
 
-### Week 3: Memory, Evaluation & Multi-Agent (Domains 3, 4, 5)
-| Day | Focus | Activity |
-|-----|-------|----------|
-| Mon | Memory Strategies | Study [03-memory-state-execution.md](./03-memory-state-execution.md) |
-| Tue | State & Context Drift | Study + complete memory exercises |
-| Wed | Evaluation & Success Criteria | Study [04-evaluation-error-tuning.md](./04-evaluation-error-tuning.md) Sections 1-2 |
-| Thu | Failure Analysis & Tuning | Study Sections 3 + complete exercises |
-| Fri | Multi-Agent Orchestration | Study [05-multi-agent-coordination.md](./05-multi-agent-coordination.md) Sections 1-2 |
-| Sat | Multi-Agent Failures & Lifecycle | Study Sections 3-4 + exercises |
-| Sun | Rest / Light review | Review all Week 3 material |
+| Est. Time | Focus | Activity |
+|-----------|-------|----------|
+| 1.5 h | Agentic AI Foundations | Complete MS Learn "Foundations of Agentic AI" module |
+| 1 h | Agent vs Assistant distinctions | Study [01-agent-architecture-sdlc.md](docs/01-agent-architecture-sdlc.md) Sections 1-2 |
+| 1 h | SDLC Integration & Planning | Study Section 3 + complete exercises |
+| 1 h | Observability & Control | Study Section 4 + complete exercises |
+| 1.5 h | Guardrails & Accountability | Study [06-guardrails-accountability.md](docs/06-guardrails-accountability.md) |
+| 2 h | Exercises & Review | Complete all Phase 1 exercises + review key concepts |
 
-### Week 4: Practice & Mastery
-| Day | Focus | Activity |
-|-----|-------|----------|
-| Mon | Full Review Domain 1 + 2 | Re-read notes, redo failed exercises |
-| Tue | Full Review Domain 3 + 4 | Re-read notes, redo failed exercises |
-| Wed | Full Review Domain 5 + 6 | Re-read notes, redo failed exercises |
-| Thu | Practice Exam | Complete [practice-questions.md](./practice-exam/practice-questions.md) |
-| Fri | Gap Analysis | Review wrong answers, study weak areas |
-| Sat | Final Review | Focus on highest-weighted domains (2, 4, 5) |
-| Sun | **EXAM DAY** | Take the GH-600 exam 🎉 |
+### Phase 2: Tools, MCP & Environments (Domain 2) — ~9 h
+
+| Est. Time | Focus | Activity |
+|-----------|-------|----------|
+| 1.5 h | Tool Selection & Config | Complete MS Learn "Tooling, MCP" module |
+| 1 h | MCP Servers | Study [02-tool-use-environment.md](docs/02-tool-use-environment.md) Sections 1-2 |
+| 1 h | Agent Execution Environments | Study Sections 3-4 |
+| 1 h | Error Handling & Safe Execution | Study Section 4 + exercises |
+| 2.5 h | Hands-on Lab | Build a custom MCP server configuration |
+| 2 h | Exercises & Review | Complete all Phase 2 exercises + review configurations and patterns |
+
+### Phase 3: Memory, Evaluation & Multi-Agent (Domains 3, 4, 5) — ~13 h
+
+| Est. Time | Focus | Activity |
+|-----------|-------|----------|
+| 1.5 h | Memory Strategies | Study [03-memory-state-execution.md](docs/03-memory-state-execution.md) |
+| 1.5 h | State & Context Drift | Study + complete memory exercises |
+| 1.5 h | Evaluation & Success Criteria | Study [04-evaluation-error-tuning.md](docs/04-evaluation-error-tuning.md) Sections 1-2 |
+| 1.5 h | Failure Analysis & Tuning | Study Sections 3 + complete exercises |
+| 1.5 h | Multi-Agent Orchestration | Study [05-multi-agent-coordination.md](docs/05-multi-agent-coordination.md) Sections 1-2 |
+| 1.5 h | Multi-Agent Failures & Lifecycle | Study Sections 3-4 + exercises |
+| 4 h | Review | Review all Phase 3 material |
+
+### Phase 4: Practice & Mastery — ~8 h
+
+| Est. Time | Focus | Activity |
+|-----------|-------|----------|
+| 1 h | Full Review Domain 1 + 2 | Re-read notes, redo failed exercises |
+| 1 h | Full Review Domain 3 + 4 | Re-read notes, redo failed exercises |
+| 1 h | Full Review Domain 5 + 6 | Re-read notes, redo failed exercises |
+| 2 h | Practice Exam | Complete [practice-questions.md](docs/practice-exam/practice-questions.md) |
+| 1.5 h | Gap Analysis | Review wrong answers, study weak areas |
+| 1.5 h | Final Review | Focus on highest-weighted domains (2, 4, 5) |
+
+---
+
+## 🏋️ Exercises Index
+
+| Exercise File | Domain Coverage |
+|---------------|-----------------|
+| [01 - Architecture Exercises](docs/exercises/01-exercises-architecture.md) | Agent Architecture & SDLC |
+| [02 - Tools & MCP Exercises](docs/exercises/02-exercises-tools-mcp.md) | Tool Use & Environment |
+| [03 - Memory & State Exercises](docs/exercises/03-exercises-memory-state.md) | Memory, State, Execution |
+| [04 - Evaluation Exercises](docs/exercises/04-exercises-evaluation.md) | Evaluation, Error Analysis, Tuning |
+| [05 - Multi-Agent Exercises](docs/exercises/05-exercises-multi-agent.md) | Multi-Agent Coordination |
+| [06 - Guardrails Exercises](docs/exercises/06-exercises-guardrails.md) | Guardrails & Accountability |
+| [Practice Exam Questions](docs/practice-exam/practice-questions.md) | All Domains |
 
 ---
 
