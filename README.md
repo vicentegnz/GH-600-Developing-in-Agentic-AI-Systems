@@ -58,7 +58,7 @@
 
 ---
 
-## � Study Plan (~35–40 h total)
+## 📖 Study Plan (~35–40 h total)
 
 > Complete activities at your own pace. Each item shows an estimated time investment.
 
@@ -120,20 +120,6 @@
 | [05 - Multi-Agent Exercises](docs/exercises/05-exercises-multi-agent.md) | Multi-Agent Coordination |
 | [06 - Guardrails Exercises](docs/exercises/06-exercises-guardrails.md) | Guardrails & Accountability |
 | [Practice Exam Questions](docs/practice-exam/practice-questions.md) | All Domains |
-
----
-
-## 🏋️ Exercises Index
-
-| Exercise File | Domain Coverage |
-|---------------|----------------|
-| [01 - Architecture Exercises](./exercises/01-exercises-architecture.md) | Agent Architecture & SDLC |
-| [02 - Tools & MCP Exercises](./exercises/02-exercises-tools-mcp.md) | Tool Use & Environment |
-| [03 - Memory & State Exercises](./exercises/03-exercises-memory-state.md) | Memory, State, Execution |
-| [04 - Evaluation Exercises](./exercises/04-exercises-evaluation.md) | Evaluation, Error Analysis, Tuning |
-| [05 - Multi-Agent Exercises](./exercises/05-exercises-multi-agent.md) | Multi-Agent Coordination |
-| [06 - Guardrails Exercises](./exercises/06-exercises-guardrails.md) | Guardrails & Accountability |
-| [Practice Exam Questions](./practice-exam/practice-questions.md) | All Domains |
 
 ---
 
